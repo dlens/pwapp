@@ -28,7 +28,7 @@
         <tr>
           <td class="label">Calculation:</td>
           <td>
-            <select id="calc">
+            <select id="calc" onchange="recalc(this)">
               <option value=1>Largest Eigenvector</option>
               <option value=2>Column Geometric Average</option>
             </select>
@@ -36,7 +36,7 @@
         </tr>
         <tr><td class="label">Rescale:</td>
           <td>
-            <select id="idealize">
+            <select id="idealize" onchange="recalc(this)">
               <option value="0">Normalize</option>
               <option value="1">Idealize</option>
             </select>
@@ -97,17 +97,19 @@
           return
         }
         let caller_id = entry.id
-        let caller_value = Number(entry.value)
-        let row_col_data = caller_id.split("_")
-        let r = row_col_data[1]
-        let c = row_col_data[2]
-        console.log("Caller="+caller_id+" value="+caller_value+" r="+r+" c="+c)
-        let inverse_entry = 0
-        let inverse_entry_id = "#id_"+c+"_"+r
-        if (caller_value != 0) {
-          inverse_entry = 1/caller_value
+        if (caller_id.startsWith("id")) {
+          let caller_value = Number(entry.value)
+          let row_col_data = caller_id.split("_")
+          let r = row_col_data[1]
+          let c = row_col_data[2]
+          console.log("Caller="+caller_id+" value="+caller_value+" r="+r+" c="+c)
+          let inverse_entry = 0
+          let inverse_entry_id = "#id_"+c+"_"+r
+          if (caller_value != 0) {
+            inverse_entry = 1/caller_value
+          }
+          $(inverse_entry_id).val(inverse_entry)
         }
-        $(inverse_entry_id).val(inverse_entry)
         IN_RECALC = 1
         let size = Number($("#size").val())
         //Grab the matrix
@@ -125,7 +127,19 @@
           matrix.push(arow)
         }
         console.log(matrix)
-        let priority = mLargestEigen(matrix)
+        let priority = []
+        switch(Number($("#calc").val())) {
+          case 1:
+            priority = mLargestEigen(matrix)
+            break;
+          case 2:
+            priority = mColumnGeomAvg(matrix)
+            break;
+        }
+        //If we idealize, do so
+        if (Number($("#idealize").val())) {
+          vIdealize(priority)
+        }
         for (let i=0; i < priority.length; i++) {
           priority[i] = priority[i].toFixed(5)
           let result_id = "#result_"+i

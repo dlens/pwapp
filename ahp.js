@@ -91,6 +91,32 @@ function vDist(v1, v2) {
   return rval
 }
 
+function mColumnGeomAvg(mat) {
+  if ((mat == null) || (mat.length == 0)) {
+      return []
+  }
+  let size = mat.length
+  let rval = []
+  for (let row=0; row < size; row++) {
+    let val = 1
+    let count = 0
+    for (let col=0; col < size; col++) {
+      if (mat[row][col]!=0) {
+        count++
+        val *= mat[row][col]
+      }
+    }
+    if (count > 1) {
+      val = val ** (1.0/count)
+    } else {
+      val = 0
+    }
+    rval.push(val)
+  }
+  vNormalize(rval)
+  return rval
+}
+
 function mLargestEigen(mat, return_val=false, error=1e-10, maxcount=10000) {
   if ((mat == null) || (mat.length == 0)) {
       return []
