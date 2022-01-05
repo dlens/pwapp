@@ -1,4 +1,6 @@
 # AHP Pairwise Comparisons
+* [Go to the application](pwapp.html)
+
 This is a very simple web app that allows you to:
 
 1. Choose the number of items being pairwise compared

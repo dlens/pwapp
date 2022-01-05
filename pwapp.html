@@ -20,20 +20,29 @@
   <body>
     <h1>Pairwise Comparison Mini-app</h1>
     <div>
-      <div><span class="label">Size</span>
-      <input type="number" id="size" min="1" max="9" onchange="update_matrix_size();" value="4">
-      </div>
-      <div><span class="label">Calculation</span>
-      <select id="calc">
-        <option value=1>Largest Eigenvector</option>
-        <option value=2>Column Geometric Average</option>
-      </select>
-      </div>
-      <div>
-        <select id="idealize">
-          <option value="0">Normalize</option>
-          <option value="1">Idealize</option>
-        </select>
+      <table class="params">
+        <tr>
+          <td class="label">Size:</td>
+          <td><input type="number" id="size" min="1" max="9" onchange="update_matrix_size();" value="4"></td>
+        </tr>
+        <tr>
+          <td class="label">Calculation:</td>
+          <td>
+            <select id="calc">
+              <option value=1>Largest Eigenvector</option>
+              <option value=2>Column Geometric Average</option>
+            </select>
+          </td>
+        </tr>
+        <tr><td class="label">Rescale:</td>
+          <td>
+            <select id="idealize">
+              <option value="0">Normalize</option>
+              <option value="1">Idealize</option>
+            </select>
+          </td>
+        </tr>
+      </table>
       </div>
       <div>
         <table id="table">
@@ -51,7 +60,7 @@
       //The update size of matrix
       function update_matrix_size() {
         let size = Number($("#size").val())
-        let tbl = $("table")
+        let tbl = $("#table")
         let entry_id = ""
         let tbl_body = "<tr><th></th>"
         //First we need the header row

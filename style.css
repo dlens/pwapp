@@ -13,3 +13,13 @@ body {
 .resultlabel {
   font-size: 32px;
 }
+
+.params {
+  border-spacing: 5px;
+  border-collapse: separate;
+}
+
+.label {
+  text-align: right;
+  font-weight: bold;
+}
